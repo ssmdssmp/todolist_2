@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/todolist_2/static/css/main.6857a146.css",
+    "main.js": "/todolist_2/static/js/main.6194afc8.js",
+    "static/media/fav.svg": "/todolist_2/static/media/fav.a5dbeab4792cef4d9defe687ccd292cc.svg",
+    "index.html": "/todolist_2/index.html",
+    "static/media/folder-plus.svg": "/todolist_2/static/media/folder-plus.137ffbbf5ebe246d26d714036699554f.svg",
+    "static/media/folder.svg": "/todolist_2/static/media/folder.64dd104553aa8c1e01fae6ba9518819f.svg",
+    "static/media/fav-active.svg": "/todolist_2/static/media/fav-active.a6dc763d42bd03b280e55b40beb3f579.svg",
+    "static/media/date.svg": "/todolist_2/static/media/date.d5c100bc1b6172b94453e6a6cda70bd3.svg",
+    "static/media/delete.svg": "/todolist_2/static/media/delete.ae469738e479d31aa952364e12120ad2.svg",
+    "static/media/search.svg": "/todolist_2/static/media/search.cf315284d6e0edc1c7686864aa6da0bc.svg",
+    "static/media/checkbox.svg": "/todolist_2/static/media/checkbox.91f4402d50f810b53b7a5a2f52391de9.svg",
+    "static/media/checkbox-active.svg": "/todolist_2/static/media/checkbox-active.b63cb0595acde11c4d6dd19d02028fb4.svg",
+    "static/media/date-active.svg": "/todolist_2/static/media/date-active.259bae2525b648f2202cba0452e2f616.svg",
+    "static/media/plus.svg": "/todolist_2/static/media/plus.f3ca0f0290870ffb457a7aed0a2acab9.svg",
+    "static/media/done.svg": "/todolist_2/static/media/done.d77a6106b69459fb02faabc5c2925156.svg",
+    "static/media/folder-active.svg": "/todolist_2/static/media/folder-active.27400faadab2d06d6d952b18225b946b.svg",
+    "static/media/details.svg": "/todolist_2/static/media/details.d1488c471e86d7036a41fdca8a2f2793.svg",
+    "main.6857a146.css.map": "/todolist_2/static/css/main.6857a146.css.map",
+    "main.6194afc8.js.map": "/todolist_2/static/js/main.6194afc8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6857a146.css",
+    "static/js/main.6194afc8.js"
+  ]
+}
