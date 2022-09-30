@@ -1,9 +1,10 @@
 {
   "files": {
-    "main.css": "/todolist_2/static/css/main.6857a146.css",
-    "main.js": "/todolist_2/static/js/main.6194afc8.js",
+    "main.css": "/todolist_2/static/css/main.2659ffea.css",
+    "main.js": "/todolist_2/static/js/main.16c505d4.js",
     "static/media/fav.svg": "/todolist_2/static/media/fav.a5dbeab4792cef4d9defe687ccd292cc.svg",
     "index.html": "/todolist_2/index.html",
+    "static/media/image.svg": "/todolist_2/static/media/image.4bef3600482ad0c730ebb8d8b7a736ef.svg",
     "static/media/folder-plus.svg": "/todolist_2/static/media/folder-plus.137ffbbf5ebe246d26d714036699554f.svg",
     "static/media/folder.svg": "/todolist_2/static/media/folder.64dd104553aa8c1e01fae6ba9518819f.svg",
     "static/media/fav-active.svg": "/todolist_2/static/media/fav-active.a6dc763d42bd03b280e55b40beb3f579.svg",
@@ -17,11 +18,11 @@
     "static/media/done.svg": "/todolist_2/static/media/done.d77a6106b69459fb02faabc5c2925156.svg",
     "static/media/folder-active.svg": "/todolist_2/static/media/folder-active.27400faadab2d06d6d952b18225b946b.svg",
     "static/media/details.svg": "/todolist_2/static/media/details.d1488c471e86d7036a41fdca8a2f2793.svg",
-    "main.6857a146.css.map": "/todolist_2/static/css/main.6857a146.css.map",
-    "main.6194afc8.js.map": "/todolist_2/static/js/main.6194afc8.js.map"
+    "main.2659ffea.css.map": "/todolist_2/static/css/main.2659ffea.css.map",
+    "main.16c505d4.js.map": "/todolist_2/static/js/main.16c505d4.js.map"
   },
   "entrypoints": [
-    "static/css/main.6857a146.css",
-    "static/js/main.6194afc8.js"
+    "static/css/main.2659ffea.css",
+    "static/js/main.16c505d4.js"
   ]
 }
