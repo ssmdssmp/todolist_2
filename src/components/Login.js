@@ -67,16 +67,22 @@ const Login = ({
   const googleLogout = () => {
     const auth2 = gapi.auth2.getAuthInstance();
     if (auth2 !== null) {
-      auth2.signOut().then(auth2.disconnect().then(console.log(1)));
-      localStorage.clear();
-      setToDefault().then((res) => {
-        setTasks(res.tasks);
-        setFolders(res.folders);
-        localStorage.setItem("tasks", JSON.stringify(res.tasks));
-        localStorage.setItem("folders", JSON.stringify(res.folders));
-      });
-      setUser("");
-      setUserDBId("");
+      auth2.signOut().then(auth2.disconnect().then(() => {}));
+
+      setToDefault()
+        .then((res) => {
+          localStorage.clear();
+          setTasks(res.tasks);
+          setFolders(res.folders);
+          localStorage.setItem("tasks", JSON.stringify(res.tasks));
+          localStorage.setItem("folders", JSON.stringify(res.folders));
+          setUser("");
+          setUserDBId("");
+        })
+        .catch(() => {
+          setTasks([]);
+          setFolders([]);
+        });
     }
   };
 
@@ -110,12 +116,15 @@ const Login = ({
               bg: "",
             })
             .then(() => {
-              setUserDBId(index + 1);
+              setUserDBId(+index + 1);
               setUser(
                 res.profileObj.email.slice(0, res.profileObj.email.indexOf("@"))
               );
-              localStorage.setItem("userDBId", index + 1);
-              // console.log(password);
+              localStorage.setItem("userDBId", +index + 1);
+              localStorage.setItem(
+                "user",
+                res.profileObj.email.slice(0, res.profileObj.email.indexOf("@"))
+              );
             });
         } else {
           setUserDBId(found.id);
@@ -123,8 +132,14 @@ const Login = ({
             res.profileObj.email.slice(0, res.profileObj.email.indexOf("@"))
           );
           setTasks(found.tasks);
+          localStorage.setItem("tasks", JSON.stringify(found.tasks));
           setFolders(found.folders);
+          localStorage.setItem("folders", JSON.stringify(found.folders));
           localStorage.setItem("userDBId", found.id);
+          localStorage.setItem(
+            "user",
+            res.profileObj.email.slice(0, res.profileObj.email.indexOf("@"))
+          );
         }
       });
     refreshTokenSetup(res);
@@ -137,24 +152,28 @@ const Login = ({
             setUser(res.user);
             setUserDBId(res.id);
             localStorage.setItem("userDBId", res.id);
+            localStorage.setItem("user", res.user);
           })
           .then(setToDefault());
         break;
       }
       case "signin": {
         signin(values.email, values.password).then((res) => {
+          localStorage.clear();
           if (!res) {
             console.log("wrong password");
             return;
+          } else {
+            setUser(res.user);
+            setUserDBId(res.id);
+            localStorage.setItem("userDBId", res.id);
+            localStorage.setItem("user", res.user);
+            localStorage.setItem("tasks", JSON.stringify(res.tasks));
+            localStorage.setItem("folders", JSON.stringify(res.folders));
+            setTasks(res.tasks);
+            setFolders(res.folders);
+            console.log(res.folders);
           }
-          setUser(res.user);
-          setUserDBId(res.id);
-          localStorage.setItem("userDBId", res.id);
-          localStorage.setItem("tasks", JSON.stringify(res.tasks));
-          localStorage.setItem("folders", JSON.stringify(res.folders));
-          setTasks(res.tasks);
-          setFolders(res.folders);
-          console.log(res.folders);
         });
 
         break;

@@ -35,29 +35,44 @@ const MainPage = ({ bg, setBg }) => {
   const [loaded, setLoaded] = useState(false);
   const [newTaskLoading, setNewTaskLoading] = useState(false);
   const [password, setPassword] = useState("");
-
+  console.log(localStorage.getItem("user"));
   useEffect(() => {
     if (userDBId.length !== 0) {
-      axios
-        .get(`https://6339e08066857f698fbca663.mockapi.io/DB/${userDBId}`)
-        .then((res) => {
-          if (res.status === 200) {
-            setTasks(res.data.tasks);
-            localStorage.setItem("tasks", JSON.stringify(res.data.tasks));
-            setFolders(res.data.folders);
-            localStorage.setItem("folders", JSON.stringify(res.data.folders));
-            setUser(
-              res.data.credits.email.slice(
-                0,
-                res.data.credits.email.indexOf("@")
-              )
-            );
-            setLoaded(true);
-          }
-        })
-        .catch(() => {
-          return;
-        });
+      if (
+        localStorage.getItem("tasks") !== null &&
+        localStorage.getItem("tasks").length !== 0
+      ) {
+        setTasks(JSON.parse(localStorage.getItem("tasks")));
+        setFolders(JSON.parse(localStorage.getItem("folders")));
+        setUser(localStorage.getItem("user"));
+        update(
+          userDBId,
+          JSON.parse(localStorage.getItem("tasks")),
+          JSON.parse(localStorage.getItem("folders"))
+        );
+        console.log(JSON.parse(localStorage.getItem("tasks")));
+        console.log(localStorage.getItem("user"));
+      } else
+        axios
+          .get(`https://6339e08066857f698fbca663.mockapi.io/DB/${userDBId}`)
+          .then((res) => {
+            if (res.status === 200) {
+              setTasks(res.data.tasks);
+              localStorage.setItem("tasks", JSON.stringify(res.data.tasks));
+              setFolders(res.data.folders);
+              localStorage.setItem("folders", JSON.stringify(res.data.folders));
+              setUser(
+                res.data.credits.email.slice(
+                  0,
+                  res.data.credits.email.indexOf("@")
+                )
+              );
+              setLoaded(true);
+            }
+          })
+          .catch(() => {
+            return;
+          });
     } else {
       if (!localStorage.getItem("tasks")) {
         setToDefault().then((res) => {
@@ -72,7 +87,7 @@ const MainPage = ({ bg, setBg }) => {
         setFolders(JSON.parse(localStorage.getItem("folders")));
       }
     }
-  }, []);
+  }, [userDBId]);
 
   useEffect(() => {
     setFavTasks([...tasks.filter((el) => el.fav === true)]);
