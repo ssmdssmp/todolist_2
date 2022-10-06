@@ -46,19 +46,6 @@ const Task = ({
     setToday(new Date());
   }, []);
   useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify([...tasks]));
-  }, [tasks]);
-  // useEffect(() => {
-  //   memoUpdate();
-  // });
-  // const memoUpdate = useCallback(() => {
-  //   if (newTaskLoading) {
-  //     return;
-  //   } else {
-  //     update(userDBId, tasks, folders);
-  //   }
-  // }, [setTasks]);
-  useEffect(() => {
     const newTasks = [...tasks];
     const index = tasks.indexOf(tasks.find((el) => el.id === settings.id));
     const deletedStep = tasks.find((el) => el.id === settings.id);
@@ -111,6 +98,8 @@ const Task = ({
       return;
     }
   };
+  console.log(tasks);
+  console.log(localStorage.getItem("tasks"));
   useEffect(() => {
     const oldDate = date.toString();
     if (oldDate !== date.toString) {
@@ -163,7 +152,8 @@ const Task = ({
       newItem.folder = "";
       newTasks.splice(index, 1, newItem);
       setTasks(newTasks);
-      // update(userDBId, newTasks, folders);
+      update(userDBId, newTasks, folders);
+      localStorage.setItem("tasks", JSON.stringify(newTasks));
       setShowFolders(false);
     } else {
       setFoldered(text);
@@ -173,7 +163,8 @@ const Task = ({
       newItem.folder = text;
       newTasks.splice(index, 1, newItem);
       setTasks(newTasks);
-      // update(userDBId, newTasks, folders);
+      update(userDBId, newTasks, folders);
+      localStorage.setItem("tasks", JSON.stringify(newTasks));
       setShowFolders(false);
     }
   };
@@ -248,6 +239,10 @@ const Task = ({
   };
   const handleDelete = () => {
     setTasks(tasks.filter((item) => item.id !== settings.id));
+    localStorage.setItem(
+      "tasks",
+      JSON.stringify(tasks.filter((item) => item.id !== settings.id))
+    );
     // update(
     //   userDBId,
     //   tasks.filter((item) => item.id !== settings.id),

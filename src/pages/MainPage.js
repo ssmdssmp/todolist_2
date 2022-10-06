@@ -31,7 +31,9 @@ const MainPage = ({ bg, setBg }) => {
   const [openFolders, setOpenFolders] = useState(false);
   const [search, setSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [folders, setFolders] = useState([]);
+  const [folders, setFolders] = useState(
+    JSON.parse(localStorage.getItem("folders")) || []
+  );
   const [folderList, setFolderList] = useState([]);
   const [folderFilter, setFolderFilter] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -45,7 +47,9 @@ const MainPage = ({ bg, setBg }) => {
         .then((res) => {
           if (res.status === 200) {
             setTasks(res.data.tasks);
+            localStorage.setItem("tasks", JSON.stringify(res.data.tasks));
             setFolders(res.data.folders);
+            localStorage.setItem("folders", JSON.stringify(res.data.folders));
             setUser(
               res.data.credits.email.slice(
                 0,
