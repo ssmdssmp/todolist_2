@@ -15,9 +15,7 @@ import searchImg from "../img/search.svg";
 import plusImg from "../img/plus.svg";
 
 const MainPage = ({ bg, setBg }) => {
-  const [tasks, setTasks] = useState(
-    JSON.parse(localStorage.getItem("tasks")) || []
-  );
+  const [tasks, setTasks] = useState([]);
 
   const [user, setUser] = useState("");
   const [userDBId, setUserDBId] = useState(
@@ -31,9 +29,7 @@ const MainPage = ({ bg, setBg }) => {
   const [openFolders, setOpenFolders] = useState(false);
   const [search, setSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [folders, setFolders] = useState(
-    JSON.parse(localStorage.getItem("folders")) || []
-  );
+  const [folders, setFolders] = useState([]);
   const [folderList, setFolderList] = useState([]);
   const [folderFilter, setFolderFilter] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -63,7 +59,7 @@ const MainPage = ({ bg, setBg }) => {
           return;
         });
     } else {
-      if (!localStorage.getItem("tasks") && !localStorage.getItem("folders")) {
+      if (!localStorage.getItem("tasks")) {
         setToDefault().then((res) => {
           setTasks(res.tasks);
           localStorage.setItem("tasks", JSON.stringify(res.tasks));
@@ -99,11 +95,7 @@ const MainPage = ({ bg, setBg }) => {
   }, []);
   const memoUpdate = useCallback(
     (userDBId, tasks, folders) => {
-      if (newTaskLoading) {
-        return;
-      } else {
-        update(userDBId, tasks, folders);
-      }
+      update(userDBId, tasks, folders);
     },
     [setTasks, tasks, folders]
   );

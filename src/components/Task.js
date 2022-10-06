@@ -52,6 +52,7 @@ const Task = ({
     deletedStep.steps = [...steps];
     newTasks.splice(index, 1, deletedStep);
     setTasks(newTasks);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
   }, [steps]);
   useEffect(() => {
     const newTasks = [...tasks];
@@ -60,7 +61,8 @@ const Task = ({
     doneTask.done = done;
     newTasks.splice(index, 1, doneTask);
     setTasks(newTasks);
-    // update(userDBId, newTasks, folders);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+    update(userDBId, newTasks, folders);
   }, [done]);
   useEffect(() => {
     const newTasks = [...tasks];
@@ -69,7 +71,8 @@ const Task = ({
     favTask.fav = fav;
     newTasks.splice(index, 1, favTask);
     setTasks(newTasks);
-    // update(userDBId, newTasks, folders);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+    update(userDBId, newTasks, folders);
   }, [fav]);
   useEffect(() => {
     setCreated(true);
@@ -98,8 +101,6 @@ const Task = ({
       return;
     }
   };
-  console.log(tasks);
-  console.log(localStorage.getItem("tasks"));
   useEffect(() => {
     const oldDate = date.toString();
     if (oldDate !== date.toString) {
@@ -243,11 +244,11 @@ const Task = ({
       "tasks",
       JSON.stringify(tasks.filter((item) => item.id !== settings.id))
     );
-    // update(
-    //   userDBId,
-    //   tasks.filter((item) => item.id !== settings.id),
-    //   folders
-    // );
+    update(
+      userDBId,
+      tasks.filter((item) => item.id !== settings.id),
+      folders
+    );
   };
   const duration = 300;
   const defaultStyle = {
