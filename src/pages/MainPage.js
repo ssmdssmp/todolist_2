@@ -31,16 +31,15 @@ const MainPage = ({ bg, setBg }) => {
   const [openFolders, setOpenFolders] = useState(false);
   const [search, setSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [folders, setFolders] = useState(
-    JSON.parse(localStorage.getItem("folders")) || []
-  );
+  const [folders, setFolders] = useState([]);
   const [folderList, setFolderList] = useState([]);
   const [folderFilter, setFolderFilter] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [newTaskLoading, setNewTaskLoading] = useState(false);
   const [password, setPassword] = useState("");
+
   useEffect(() => {
-    if (userDBId !== "") {
+    if (userDBId.length !== 0) {
       axios
         .get(`https://6339e08066857f698fbca663.mockapi.io/DB/${userDBId}`)
         .then((res) => {
@@ -60,20 +59,20 @@ const MainPage = ({ bg, setBg }) => {
           return;
         });
     } else {
-      if (!localStorage.getItem("tasks")) {
+      if (!localStorage.getItem("tasks") && !localStorage.getItem("folders")) {
         setToDefault().then((res) => {
           setTasks(res.tasks);
           localStorage.setItem("tasks", JSON.stringify(res.tasks));
           setFolders(res.folders);
           localStorage.setItem("folders", JSON.stringify(res.folders));
-          setBg(JSON.parse(localStorage.getItem("bg")) || res.bg);
+          setBg(res.bg);
         });
       } else {
         setTasks(JSON.parse(localStorage.getItem("tasks")));
         setFolders(JSON.parse(localStorage.getItem("folders")));
       }
     }
-  }, [userDBId]);
+  }, []);
 
   useEffect(() => {
     setFavTasks([...tasks.filter((el) => el.fav === true)]);

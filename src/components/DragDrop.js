@@ -17,10 +17,10 @@ function DragDrop({ setBg, bg, userDBId }) {
   };
   const handleChange = (file) => {
     setFile(URL.createObjectURL(file));
-    // setBg(URL.createObjectURL(file));
     getBase64(file).then((res) => {
       setBg(res);
       localStorage.setItem("bg", res);
+      console.log(localStorage);
     });
   };
 

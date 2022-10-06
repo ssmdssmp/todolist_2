@@ -19,6 +19,7 @@ const Folders = ({
   userDBId,
   tasks,
 }) => {
+  console.log(folders);
   const foldersRef = useRef();
   const [folderInput, setFolderInput] = useState("");
   function useOutsideAlerter(ref) {

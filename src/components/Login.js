@@ -72,6 +72,8 @@ const Login = ({
       setToDefault().then((res) => {
         setTasks(res.tasks);
         setFolders(res.folders);
+        localStorage.setItem("tasks", JSON.stringify(res.tasks));
+        localStorage.setItem("folders", JSON.stringify(res.folders));
       });
       setUser("");
       setUserDBId("");
