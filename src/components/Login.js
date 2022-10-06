@@ -65,6 +65,7 @@ const Login = ({
 
   // console.log(loginInput);
   const googleLogout = () => {
+    window.stop();
     const auth2 = gapi.auth2.getAuthInstance();
     if (auth2 !== null) {
       auth2.signOut().then(auth2.disconnect().then(() => {}));
