@@ -12,12 +12,20 @@ import checkboxImg from "../img/checkbox.svg";
 import checkboxActive from "../img/checkbox-active.svg";
 import FolderImg from "../img/folder.svg";
 import FolderActive from "../img/folder-active.svg";
-
+import { update } from "../services/MainService";
 import Step from "./Step";
 import { useState, useEffect } from "react";
 import { Transition } from "react-transition-group";
-const Task = ({ settings, setTasks, tasks, folders }) => {
-  const [details, setDetails] = useState(false);
+import { useCallback } from "react";
+const Task = ({
+  settings,
+  setTasks,
+  tasks,
+  folders,
+  userDBId,
+  newTaskLoading,
+}) => {
+  const [details, setDetails] = useState(settings.details);
   const [input, setInput] = useState(settings.title);
   const [done, setDone] = useState(settings.done);
   const [fav, setFav] = useState(settings.fav);
@@ -40,6 +48,16 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify([...tasks]));
   }, [tasks]);
+  // useEffect(() => {
+  //   memoUpdate();
+  // });
+  // const memoUpdate = useCallback(() => {
+  //   if (newTaskLoading) {
+  //     return;
+  //   } else {
+  //     update(userDBId, tasks, folders);
+  //   }
+  // }, [setTasks]);
   useEffect(() => {
     const newTasks = [...tasks];
     const index = tasks.indexOf(tasks.find((el) => el.id === settings.id));
@@ -55,6 +73,7 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
     doneTask.done = done;
     newTasks.splice(index, 1, doneTask);
     setTasks(newTasks);
+    // update(userDBId, newTasks, folders);
   }, [done]);
   useEffect(() => {
     const newTasks = [...tasks];
@@ -63,13 +82,11 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
     favTask.fav = fav;
     newTasks.splice(index, 1, favTask);
     setTasks(newTasks);
+    // update(userDBId, newTasks, folders);
   }, [fav]);
   useEffect(() => {
     setCreated(true);
   }, []);
-  useEffect(() => {
-    handleDate();
-  }, [date]);
   useEffect(() => {
     if (folders.find((el) => el.title === foldered)) {
       return;
@@ -94,7 +111,13 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
       return;
     }
   };
-  const handleDate = () => {
+  useEffect(() => {
+    const oldDate = date.toString();
+    if (oldDate !== date.toString) {
+      handleDate();
+    }
+  }, [date]);
+  const handleDate = useCallback(() => {
     // setOldDate(date);
     const newTasks = [...tasks];
     const index = tasks.indexOf(tasks.find((el) => el.id === settings.id));
@@ -102,8 +125,9 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
     datedTask.date = date;
     newTasks.splice(index, 1, datedTask);
     setTasks(newTasks);
+    update(userDBId, newTasks, folders);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
-  };
+  }, [date]);
   const CalendarDate = () => {
     const diff = today - date;
     if (diff > 0 && diff < 86400000) {
@@ -139,6 +163,7 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
       newItem.folder = "";
       newTasks.splice(index, 1, newItem);
       setTasks(newTasks);
+      // update(userDBId, newTasks, folders);
       setShowFolders(false);
     } else {
       setFoldered(text);
@@ -148,6 +173,7 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
       newItem.folder = text;
       newTasks.splice(index, 1, newItem);
       setTasks(newTasks);
+      // update(userDBId, newTasks, folders);
       setShowFolders(false);
     }
   };
@@ -156,10 +182,18 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
   };
 
   const handleDetails = () => {
-    setDetails(!details);
     if (details) {
       setCalendarOpen(false);
     }
+    setDetails(!details);
+    const newTasks = [...tasks];
+    const index = tasks.indexOf(tasks.find((el) => el.id === settings.id));
+    const selected = tasks.find((el) => el.id === settings.id);
+    selected.details = !details;
+    newTasks.splice(index, 1, selected);
+    setTasks(newTasks);
+    update(userDBId, newTasks, folders);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
 
   const handleCalendarOpen = () => {
@@ -205,6 +239,8 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
     DescriptionedTask.description = e.target.value;
     newTasks.splice(index, 1, DescriptionedTask);
     setTasks(newTasks);
+    update(userDBId, newTasks, folders);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
   const handleHeight = () => {
     setHeight(document.getElementById(settings.id).clientHeight);
@@ -212,6 +248,11 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
   };
   const handleDelete = () => {
     setTasks(tasks.filter((item) => item.id !== settings.id));
+    // update(
+    //   userDBId,
+    //   tasks.filter((item) => item.id !== settings.id),
+    //   folders
+    // );
   };
   const duration = 300;
   const defaultStyle = {
@@ -241,7 +282,13 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
     exited: { opacity: "0" },
   };
   return (
-    <Transition in={created} timeout={duration} onExited={handleDelete}>
+    <Transition
+      in={created}
+      timeout={duration}
+      onExited={() => {
+        handleDelete();
+      }}
+    >
       {(state) => (
         <li
           className="task"
@@ -308,7 +355,11 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
                         src={foldered !== "" ? FolderActive : FolderImg}
                         alt=""
                       />
-                      <p>{foldered.slice(0, 3)}</p>
+                      <p>
+                        {foldered && foldered.length > 7
+                          ? foldered.slice(0, 7) + "..."
+                          : foldered}
+                      </p>
                       <ul
                         className="folder-list"
                         style={{
@@ -373,6 +424,8 @@ const Task = ({ settings, setTasks, tasks, folders }) => {
                       {steps.map((item) => {
                         return (
                           <Step
+                            folders={folders}
+                            userDBId={userDBId}
                             finished={item.done}
                             key={uuid()}
                             parentId={settings.id}

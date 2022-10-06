@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";
-
+import axios from "axios";
 const fileTypes = ["JPG", "JPEG", "PNG", "GIF"];
 
-function DragDrop({ setBg }) {
+function DragDrop({ setBg, bg, userDBId }) {
+  useEffect(() => {}, [bg]);
   const [file, setFile] = useState(null);
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -16,15 +17,12 @@ function DragDrop({ setBg }) {
   };
   const handleChange = (file) => {
     setFile(URL.createObjectURL(file));
-    setBg(URL.createObjectURL(file));
+    // setBg(URL.createObjectURL(file));
     getBase64(file).then((res) => {
-      localStorage["bg"] = res;
-      console.debug("file stored", res);
+      setBg(res);
+      localStorage.setItem("bg", res);
     });
   };
-  useEffect(() => {
-    console.log(localStorage.getItem("bg"));
-  }, [file]);
 
   return (
     <FileUploader handleChange={handleChange} name="file" types={fileTypes} />

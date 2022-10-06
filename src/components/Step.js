@@ -4,6 +4,7 @@ import checkbboxActive from "../img/checkbox-active.svg";
 import deleteImg from "../img/delete.svg";
 import { Transition } from "react-transition-group";
 import { useEffect, useMemo } from "react";
+import { update } from "../services/MainService";
 
 const Step = ({
   title,
@@ -14,6 +15,8 @@ const Step = ({
   id,
   parentId,
   finished,
+  userDBId,
+  folders,
 }) => {
   const [input, setInput] = useState(title);
   const [done, setDone] = useState(finished);
@@ -31,6 +34,7 @@ const Step = ({
     deletedStep.steps = [...steps.filter((el) => el.id !== id)];
     newTasks.splice(index, 1, deletedStep);
     setTasks(newTasks);
+    update(userDBId, newTasks, folders);
   };
   const handleDone = () => {
     setDone(!done);
@@ -48,14 +52,8 @@ const Step = ({
     // const parentIndex = tasks.indexOf(tasks.find((el) => el.id === parentId));
     const deletedStep = newSteps.find((el) => el.id === id);
     deletedStep.title = e.target.value;
-    console.log(deletedStep);
     newSteps.splice(index, 1, deletedStep);
     setSteps(newSteps);
-    // newSteps.splice(index, 1, deletedStep);
-    // setSteps(newSteps);
-
-    // newTasks.splice(parentIndex, 1, deletedStep);
-    // setTasks(newTasks);
   };
 
   return (

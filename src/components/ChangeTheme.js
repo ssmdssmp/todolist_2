@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import imageImg from "../img/image.svg";
 import DragDrop from "./DragDrop";
-const ChangeTheme = ({ setBg }) => {
+const ChangeTheme = ({ setBg, bg, userDBId }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef();
   function useOutsideAlerter(ref) {
@@ -28,11 +28,10 @@ const ChangeTheme = ({ setBg }) => {
   };
   return (
     <div className="change-theme">
-      <p style={{ opacity: open ? "1" : "0" }}>Change Theme</p>
       <img onClick={handleOpen} src={imageImg} alt="" />
       {open ? (
         <div ref={ref} className="drag-drop">
-          <DragDrop setBg={setBg} />
+          <DragDrop userDBId={userDBId} bg={bg} setBg={setBg} />
         </div>
       ) : null}
     </div>

@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Transition } from "react-transition-group";
 const Clock = () => {
   const [time, setTime] = useState(new Date());
-  const [counter, setCounter] = useState(0);
-  const [tik, setTik] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date());
