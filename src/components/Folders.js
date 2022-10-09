@@ -52,15 +52,11 @@ const Folders = ({
         "folders",
         JSON.stringify([...folders, { title: text, tasks: [] }])
       );
-    } else {
-      return;
     }
   };
-  const createFolder__keyboard = (e) => {
+  const createFolderKeyboard = (e) => {
     if (e.key === "Enter") {
       createFolder(folderInput);
-    } else {
-      return;
     }
   };
   const handleDeleteFolder = (e) => {
@@ -119,14 +115,12 @@ const Folders = ({
 
           <div className="create-folder">
             <img
-              onClick={() => {
-                createFolder(folderInput);
-              }}
+              onClick={() => createFolder(folderInput)}
               src={folderPlus}
               alt="folder-img"
             />
             <input
-              onKeyDown={(e) => createFolder__keyboard(e)}
+              onKeyDown={(e) => createFolderKeyboard(e)}
               value={folderInput}
               onChange={(e) => setFolderInput(e.target.value)}
               type="text"

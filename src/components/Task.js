@@ -39,7 +39,6 @@ const Task = ({
   );
   const [today, setToday] = useState(new Date());
   const [stepsInput, setStepsInput] = useState("");
-  const [overdue, setOverdue] = useState(false);
   const [created, setCreated] = useState(false);
   const [height, setHeight] = useState(240);
   useEffect(() => {
@@ -103,12 +102,9 @@ const Task = ({
   };
   useEffect(() => {
     const oldDate = date.toString();
-    if (oldDate !== date.toString) {
-      handleDate();
-    }
+    if (oldDate !== date.toString) handleDate();
   }, [date]);
   const handleDate = useCallback(() => {
-    // setOldDate(date);
     const newTasks = [...tasks];
     const index = tasks.indexOf(tasks.find((el) => el.id === settings.id));
     const datedTask = tasks.find((el) => el.id === settings.id);
@@ -199,7 +195,7 @@ const Task = ({
   };
   const handleDone = () => {
     setDone(!done);
-    if (!done === true) {
+    if (!done) {
       setFav(false);
     }
   };
@@ -296,7 +292,7 @@ const Task = ({
             ...opacityTransitionStyle[state],
           }}
         >
-          {calendarOpen ? (
+          {calendarOpen && (
             <div ref={wrapperRef}>
               <Calendar
                 onClick={() => setCalendarOpen(!calendarOpen)}
@@ -304,7 +300,7 @@ const Task = ({
                 value={date}
               />
             </div>
-          ) : null}
+          )}
           <Transition
             in={details}
             timeout={duration}

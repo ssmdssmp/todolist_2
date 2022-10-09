@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./App.css";
 import "./Calendar.css";
-import { createHashRouter, RouterProvider, Route } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";

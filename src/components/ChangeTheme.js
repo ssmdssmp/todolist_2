@@ -24,16 +24,15 @@ const ChangeTheme = ({ setBg, bg, userDBId }) => {
   useOutsideAlerter(ref);
   const handleOpen = () => {
     setOpen(!open);
-    console.log(!open);
   };
   return (
     <div className="change-theme">
       <img onClick={handleOpen} src={imageImg} alt="" />
-      {open ? (
+      {open && (
         <div ref={ref} className="drag-drop">
           <DragDrop userDBId={userDBId} bg={bg} setBg={setBg} />
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

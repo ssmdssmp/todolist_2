@@ -4,12 +4,13 @@ export const update = (userDBId, tasks, folders) => {
   if (userDBId === "") {
     return;
   } else {
-    return axios
-      .put(`https://6339e08066857f698fbca663.mockapi.io/DB/${userDBId}`, {
-        tasks: tasks,
-        folders: folders,
-      })
-      .then((res) => console.log(res));
+    return axios.put(
+      `https://6339e08066857f698fbca663.mockapi.io/DB/${userDBId}`,
+      {
+        tasks,
+        folders,
+      }
+    );
   }
 };
 export const signin = (email, password) =>
@@ -27,7 +28,7 @@ export const signin = (email, password) =>
       };
       return data;
     } else {
-      return 0;
+      return;
     }
   });
 export const signup = (email, password) =>
@@ -65,6 +66,5 @@ export const setToDefault = () =>
         folders: result.folders,
         bg: result.bg,
       };
-      console.log(data);
       return data;
     });

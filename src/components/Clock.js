@@ -3,28 +3,13 @@ import { useState } from "react";
 const Clock = () => {
   const [time, setTime] = useState(new Date());
   useEffect(() => {
-    const interval = setInterval(() => {
+    setInterval(() => {
       setTime(new Date());
-      //   setTik(!tik);
     }, 1000);
   }, []);
-  const addZero = (a) => {
-    if (a < 10) {
-      return `0${a}`;
-    } else {
-      return a;
-    }
-  };
-  const duration = 1000;
-  const defaultStyle = {
-    transition: `opacity ${duration}ms ease-in-out`,
-    opacity: 1,
-  };
-  const transitionStyle = {
-    entering: { opacity: "1" },
-    entered: { opacity: "0" },
-    exiting: { opacity: "1" },
-    exited: { opacity: "1   " },
+  const addZero = (timeValue) => {
+    if (timeValue < 10) return `0${timeValue}`;
+    else return timeValue;
   };
   return (
     <div className="today">

@@ -8,6 +8,7 @@ import userImg from "../img/user.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { signin, signup, setToDefault } from "../services/MainService";
+import spinnerImg from "../img/spinner.svg";
 
 const Login = ({
   user,
@@ -21,6 +22,7 @@ const Login = ({
   openFolders,
 }) => {
   const [loginOpen, setLoginOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (userDBId !== "") {
@@ -56,16 +58,17 @@ const Login = ({
   useEffect(() => {
     const initClient = () => {
       gapi.auth2.init({
-        clientId: clientId,
+        clientId,
         scope: "",
       });
     };
     gapi.load("client:auth2", initClient);
   });
 
-  // console.log(loginInput);
   const googleLogout = () => {
     window.stop();
+    setLoading(true);
+
     const auth2 = gapi.auth2.getAuthInstance();
     if (auth2 !== null) {
       auth2.signOut().then(auth2.disconnect().then(() => {}));
@@ -80,6 +83,7 @@ const Login = ({
           setUser("");
           setUserDBId("");
         })
+        .then(setLoading(false))
         .catch(() => {
           setTasks([]);
           setFolders([]);
@@ -88,6 +92,7 @@ const Login = ({
   };
 
   const onSuccess = (res) => {
+    setLoading(true);
     const data = res;
 
     axios
@@ -104,7 +109,6 @@ const Login = ({
           (el) => el.credits.email === data.profileObj.email
         );
 
-        console.log(password);
         if (!found) {
           axios
             .post("https://6339e08066857f698fbca663.mockapi.io/DB", {
@@ -142,7 +146,8 @@ const Login = ({
             res.profileObj.email.slice(0, res.profileObj.email.indexOf("@"))
           );
         }
-      });
+      })
+      .then(setLoading(false));
     refreshTokenSetup(res);
   };
   const handleSubmit = (values, a) => {
@@ -173,14 +178,12 @@ const Login = ({
             localStorage.setItem("folders", JSON.stringify(res.folders));
             setTasks(res.tasks);
             setFolders(res.folders);
-            console.log(res.folders);
           }
         });
 
         break;
       }
       default: {
-        console.log(values);
         return;
       }
     }
@@ -205,7 +208,7 @@ const Login = ({
         <p>{user}</p>
         <img src={userImg} alt="" />
       </div>
-      {loginOpen ? (
+      {loginOpen && (
         <>
           {userDBId === "" ? (
             <>
@@ -254,6 +257,7 @@ const Login = ({
                     </Form>
                   )}
                 </Formik>
+                {loading && <img className="spinner" src={spinnerImg} alt="" />}
               </div>
 
               <GoogleLogin
@@ -288,10 +292,11 @@ const Login = ({
               >
                 <button onClick={() => googleLogout()}>Sign Out</button>
               </div>
+              {loading && <img className="spinner" src={spinnerImg} alt="" />}
             </>
           )}
         </>
-      ) : null}
+      )}
     </div>
   );
 };

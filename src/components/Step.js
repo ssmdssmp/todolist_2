@@ -2,8 +2,6 @@ import { useState } from "react";
 import checkboxImg from "../img/checkbox.svg";
 import checkbboxActive from "../img/checkbox-active.svg";
 import deleteImg from "../img/delete.svg";
-import { Transition } from "react-transition-group";
-import { useEffect, useMemo } from "react";
 import { update } from "../services/MainService";
 
 const Step = ({
@@ -21,11 +19,7 @@ const Step = ({
   const [input, setInput] = useState(title);
   const [done, setDone] = useState(finished);
   const [focus, setFocus] = useState(false);
-  const [created, setCreated] = useState(false);
-  const [focused, setFocused] = useState(false);
-  useEffect(() => {
-    setCreated(true);
-  }, []);
+
   const handleDelete = () => {
     setSteps([...steps.filter((el) => el.id !== id)]);
     const newTasks = [...tasks];
@@ -49,7 +43,6 @@ const Step = ({
     setInput(e.target.value);
     const newSteps = [...steps];
     const index = steps.indexOf(steps.find((el) => el.id === id));
-    // const parentIndex = tasks.indexOf(tasks.find((el) => el.id === parentId));
     const deletedStep = newSteps.find((el) => el.id === id);
     deletedStep.title = e.target.value;
     newSteps.splice(index, 1, deletedStep);

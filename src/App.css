@@ -901,6 +901,9 @@
   display: flex;
   justify-content: space-between;
 }
+.spinner {
+  height: 50px;
+}
 @media (max-width: 768px) {
   /* .options {
     width: 60%;

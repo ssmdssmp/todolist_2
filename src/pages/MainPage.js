@@ -35,7 +35,6 @@ const MainPage = ({ bg, setBg }) => {
   const [loaded, setLoaded] = useState(false);
   const [newTaskLoading, setNewTaskLoading] = useState(false);
   const [password, setPassword] = useState("");
-  console.log(localStorage.getItem("user"));
   useEffect(() => {
     if (userDBId.length !== 0) {
       if (
@@ -50,8 +49,6 @@ const MainPage = ({ bg, setBg }) => {
           JSON.parse(localStorage.getItem("tasks")),
           JSON.parse(localStorage.getItem("folders"))
         );
-        console.log(JSON.parse(localStorage.getItem("tasks")));
-        console.log(localStorage.getItem("user"));
       } else
         axios
           .get(`https://6339e08066857f698fbca663.mockapi.io/DB/${userDBId}`)
@@ -91,10 +88,9 @@ const MainPage = ({ bg, setBg }) => {
 
   useEffect(() => {
     setFavTasks([...tasks.filter((el) => el.fav === true)]);
-  }, [tasks]);
-  useEffect(() => {
     setDoneTasks([...tasks.filter((el) => el.done === true)]);
   }, [tasks]);
+
   let searchArr = tasks.filter((item) => {
     return item.title.toLowerCase().includes(searchValue.toLowerCase());
   });
@@ -280,7 +276,6 @@ const MainPage = ({ bg, setBg }) => {
         handleFoldersList={handleFoldersList}
       />
       <div className="menu">
-        {/* <Logout></Logout> */}
         <ul>
           <li>
             <img onClick={handleFavList} src={favImg} alt="" />
